@@ -30,6 +30,7 @@ jobs:
           trivy fs \
             --scanners misconfig \
             --config trivy/policies/trivy.yaml \
+            --compliance=aws-cis-1.4 \
             --format sarif \
             --namespaces custom \
             --output trivy-results.sarif \
