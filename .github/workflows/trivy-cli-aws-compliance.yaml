@@ -1,4 +1,4 @@
-name: Trivy Config CLI Scan
+name: Trivy AWS Compliance Scan
 
 on:
   push:
@@ -8,8 +8,8 @@ on:
 
 
 jobs:
-  trivy-config-cli:
-    name: Trivy config scan from CLI
+  trivy-compliance-cli:
+    name: Trivy compliance scan from CLI
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -25,18 +25,16 @@ jobs:
           version: v0.65.0
           cache: true
 
-      - name: Run Trivy config scan
+      - name: Run Trivy compliance scan
         run: |
-          trivy fs \
-            --scanners misconfig \
-            --config trivy/policies/trivy.yaml \
+          trivy aws \
+            --compliance=aws-cis-1.4 \
+            --report all \
             --format sarif \
-            --namespaces custom \
-            --output trivy-results.sarif \
-            ./configsiam
+            --output trivy-aws-compliance-results.sarif \
     
       - name: Upload SARIF to Code Scanning
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: trivy-results.sarif
-          category: trivy-config
+          sarif_file: trivy-aws-compliance-results.sarif
+          category: trivy-aws-compliance
