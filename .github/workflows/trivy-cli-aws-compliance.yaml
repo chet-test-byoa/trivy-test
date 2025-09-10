@@ -28,7 +28,6 @@ jobs:
       - name: Run Trivy compliance scan
         run: |
           trivy aws \
-            --compliance aws-cis-1.4 \
             --report all \
             --format sarif \
             --output trivy-aws-compliance-results.sarif \
